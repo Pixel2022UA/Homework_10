@@ -5,7 +5,7 @@
 2. Откройте проект в PyCharm и установите необходимые зависимости из файла requirements.txt, используя команду 
    - pip install -r requirements.txt
 
-3. Создайте базу данных выполнив команды:
+3. __База данных залита на гит__, но так же можно создать новую:
    - python manage.py makemigrations
    - python manage.py migrate
 
