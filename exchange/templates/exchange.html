@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Обмен валют:</h2>
+<form method="post" action="{% url 'exchange' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Поменять</button>
+</form>
+
+{% if amount_b %}
+<p>Вы получите: {{ amount_b }} {{ currency_b }}</p>
+{% endif %}
+{% endblock %}

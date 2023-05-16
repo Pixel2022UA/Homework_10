@@ -3,19 +3,12 @@ import os
 from celery import Celery
 from celery.schedules import crontab
 
-# Set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "exchange_rates.settings")
 
 app = Celery("exchange_rates")
 every_3_am = crontab(minute=0, hour=3)
-
-# Using a string here means the worker doesn't have to serialize
-# the configuration object to child processes.
-# - namespace='CELERY' means all celery-related configuration keys
-#   should have a `CELERY_` prefix.
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
-# Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
@@ -38,5 +31,25 @@ app.conf.beat_schedule = {
         "task": "exchange.tasks.start_exchange",
         "schedule": every_3_am,
         "args": ("privat", "USD", "UAH"),
+    },
+    "nacbank-USD-UAH": {
+        "task": "exchange.tasks.start_exchange",
+        "schedule": every_3_am,
+        "args": ("nacbank", "USD", "UAH"),
+    },
+    "nacbank-EUR-UAH": {
+        "task": "exchange.tasks.start_exchange",
+        "schedule": every_3_am,
+        "args": ("nacbank", "EUR", "UAH"),
+    },
+    "openexch-EUR-UAH": {
+        "task": "exchange.tasks.start_exchange",
+        "schedule": every_3_am,
+        "args": ("openexch", "USD", "UAH"),
+    },
+    "layer-USD-UAH": {
+        "task": "exchange.tasks.start_exchange",
+        "schedule": every_3_am,
+        "args": ("layer", "USD", "UAH"),
     },
 }
